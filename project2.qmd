@@ -4,7 +4,7 @@ author: "Huarong Jin"
 format: html
 editor: visual
 ---
-GitHub link:https://github.com/jhuarong-lang/project2/commits/main/
+GitHub link:https://github.com/jhuarong-lang/project2
 
 ## 1.codebook
 This project uses several derived datasets created from the original Harry Potter text corpus (from the harrypotter R package). The following tables describe each dataset and variable used in the analysis.
