@@ -300,8 +300,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Research Question: 1. How does sentiment (positive vs.&nbsp;negative vocabulary) vary across the seven books? 2. Which characters or concepts dominate each book’s vocabulary? 3. How does emotional tone fluctuate within each book across chapters? 4. How do positive and negative words evolve over chapters within each book?</p>
 <p>To answer these, I apply lexicon-based sentiment analysis using tidytext and visualize emotional trends at chapter and book scales, along with lexical frequency trends.</p>
 </section>
-<section id="setup-before-loading-the-data-i-install-the-harrypotter-package-which-contains-the-book-texts-and-load-the-libraries-used-throughout-the-analysis.-this-project-relies-heavily-on-the-tidyverse-for-data-wrangling-tidytext-for-sentiment-analysis-and-ggplot2-for-visualization." class="level2">
-<h2 class="anchored" data-anchor-id="setup-before-loading-the-data-i-install-the-harrypotter-package-which-contains-the-book-texts-and-load-the-libraries-used-throughout-the-analysis.-this-project-relies-heavily-on-the-tidyverse-for-data-wrangling-tidytext-for-sentiment-analysis-and-ggplot2-for-visualization.">2.1 Setup Before loading the data, I install the harrypotter package (which contains the book texts) and load the libraries used throughout the analysis. This project relies heavily on the tidyverse for data wrangling, tidytext for sentiment analysis, and ggplot2 for visualization.</h2>
+<section id="setup-before-loading-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="setup-before-loading-the-data">2.1 Setup Before loading the data</h2>
+<p>I install the harrypotter package (which contains the book texts) and load the libraries used throughout the analysis. This project relies heavily on the tidyverse for data wrangling, tidytext for sentiment analysis, and ggplot2 for visualization.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(devtools)) <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
@@ -362,7 +363,8 @@ The following objects are masked from 'package:base':
 <pre><code>here() starts at /Users/jinhuarong/ling343/project2</code></pre>
 </div>
 </div>
-<p>##3.Data &amp; Preprocessing The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing. ##3.1 Combine Books into a Single Dataset</p>
+<p>##3.Data &amp; Preprocessing The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing.</p>
+<p>##3.1 Combine Books into a Single Dataset</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>books <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="at">book =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,</span>
@@ -408,7 +410,7 @@ The following objects are masked from 'package:base':
   "many-to-many"` to silence this warning.</code></pre>
 </div>
 </div>
-<p>##4. Lexical Patterns Before analyzing sentiment, it is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time.</p>
+<p>##4. Lexical Patterns Before analyzing sentiment It is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time.</p>
 <p>##4.1 Top Words in Each Book</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>top_words <span class="ot">&lt;-</span> hp_words <span class="sc">|&gt;</span></span>
@@ -577,7 +579,8 @@ The following objects are masked from 'package:base':
 </div>
 </div>
 <p>Book 1 rises steadily as Harry enters the magical world, while Book 2 dips early during the attacks at Hogwarts. Book 3 stays comparatively stable until the sharp swing at the Sirius/Scabbers reveal, whereas Book 4 fluctuates heavily throughout the Triwizard Tournament(Harry faced the death of a companion for the first time, and Cedric’s death marked a turning point in the Harry Potter series.). Book 5 shows the most chaotic pattern, matching the constant conflict with Umbridge, while Book 6 peaks mid-story before dropping sharply after Dumbledore’s death. Book 7 oscillates throughout the Horcrux hunt and reaches some of the lowest points in the entire series, reflecting the sustained tension leading into the final battle.</p>
-<p>##8. Wordclouds Wordclouds give a high-level sense of vocabulary prominence. ##8.1 Overall Word Frequencies</p>
+<p>##8. Wordclouds Wordclouds give a high-level sense of vocabulary prominence.</p>
+<p>##8.1 Overall Word Frequencies</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>word_counts <span class="ot">&lt;-</span> hp_words <span class="sc">|&gt;</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">|&gt;</span></span>
@@ -600,7 +603,8 @@ The following objects are masked from 'package:base':
 </div>
 </div>
 </div>
-<p>The word cloud highlights how central the trio—Harry, Ron, and Hermione—is to the narrative, with other major figures like Dumbledore, Hagrid, Voldemort, and Snape also standing out. Frequent appearance of words such as looked, eyes, hand, and voice suggests Rowling’s reliance on sensory and bodily descriptions to move scenes forward. ##8.2 Positive vs Negative Wordclouds</p>
+<p>The word cloud highlights how central the trio—Harry, Ron, and Hermione—is to the narrative, with other major figures like Dumbledore, Hagrid, Voldemort, and Snape also standing out. Frequent appearance of words such as looked, eyes, hand, and voice suggests Rowling’s reliance on sensory and bodily descriptions to move scenes forward.</p>
+<p>##8.2 Positive vs Negative Wordclouds</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sent_counts <span class="ot">&lt;-</span> hp_sentiment <span class="sc">|&gt;</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sentiment)) <span class="sc">|&gt;</span></span>
