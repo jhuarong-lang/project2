@@ -4,9 +4,9 @@ author: "Huarong Jin"
 format: html
 editor: visual
 ---
+GitHub link:https://github.com/jhuarong-lang/project2/commits/main/
 
 ## 1.codebook
-
 This project uses several derived datasets created from the original Harry Potter text corpus (from the harrypotter R package). The following tables describe each dataset and variable used in the analysis.
 
 1.Raw Token Dataset: `hp_words`
@@ -28,7 +28,7 @@ This dataset joins HP tokens with sentiment lexicons (bing, nrc, afinn).
 | book | factor | The book name (from philosophers_stone to deathly_hallows). |
 | chapter | integer | chapter number within each book. |
 | word | character | A single word token extracted from the chapter text. |
-| sentiment | character | Sentiment category assigned by dictionary ("positive", "negative", or NRC emotion categories). |
+| sentiment | character | Sentiment category assigned by dictionary ("positive", "negative", or emotion categories). |
 | score | numeric | Sentiment score (AFINN only; bing & nrc are binary). |
 | dictionary | character | The lexicon used (afinn, bing, or nrc). |
 
@@ -70,9 +70,11 @@ This dataset smooths and interpolates sentiment over 200 equally spaced time poi
 
 Emotion plays a central role in narrative structure, pacing, and reader interpretation. The Harry Potter series provides a rich longitudinal text corpus spanning seven books. This project investigates:
 
-Research Question: How does emotional tone shift across the seven books of the Harry Potter series, based on positive and negative lexical items?
+Research Question: 1. How does sentiment (positive vs. negative vocabulary) vary across the seven books? 2. Which characters or concepts dominate each book’s vocabulary? 3. How does emotional tone fluctuate within each book across chapters? 4. How do positive and negative words evolve over chapters within each book?
 
-To answer this, I apply lexicon-based sentiment analysis using tidytext and visualize emotional trends at chapter and book scales, along with lexical frequency trends. \## 2.Setup Before loading the data, I install the harrypotter package (which contains the book texts) and load the libraries used throughout the analysis. This project relies heavily on the tidyverse for data wrangling, tidytext for sentiment analysis, and ggplot2 for visualization.
+To answer these, I apply lexicon-based sentiment analysis using tidytext and visualize emotional trends at chapter and book scales, along with lexical frequency trends.
+
+## 2.1 Setup Before loading the data, I install the harrypotter package (which contains the book texts) and load the libraries used throughout the analysis. This project relies heavily on the tidyverse for data wrangling, tidytext for sentiment analysis, and ggplot2 for visualization.
 
 ```{r}
 if (!require(devtools)) install.packages("devtools")
@@ -88,12 +90,12 @@ library(wordcloud)
 library(ggplot2)
 library(RColorBrewer)
 library(zoo)
-
+library(here)
 ```
 
-##3.Data & Preprocessing 
-The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing. 
+##3.Data & Preprocessing The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing. 
 ##3.1 Combine Books into a Single Dataset
+
 ```{r}
 books <- tibble(
 book = 1:7,
@@ -141,9 +143,10 @@ left_join(bing, by = "word")
 
 ```
 
-##4. Lexical Patterns Before analyzing sentiment, it is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time. 
+##4. Lexical Patterns Before analyzing sentiment, it is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time.
 
 ##4.1 Top Words in Each Book
+
 ```{r}
 top_words <- hp_words |>
   anti_join(stop_words, by = "word") |>    # remove stopwords
@@ -410,7 +413,6 @@ ggplot(chapter_mean, aes(x = time, y = mean_sent)) +
 
 The normalized emotional arc shows that the series maintains a generally negative emotional tone overall, but with noticeable mid-story rises corresponding to moments of hope, discovery, and bonding that occur across multiple books. As the narrative progresses toward the ending, the curve dips again, reflecting the darker, high-stakes conflicts of the final volumes before slightly recovering at the conclusion.
 
-##11. Conclusion 
-Across all analyses, the Harry Potter series reveals a consistent emotional and linguistic trajectory that mirrors the narrative’s increasing thematic complexity. Sentiment patterns show that negative language becomes more dominant as the stakes rise, especially in the later books, while the normalized emotional arc highlights recurring waves of tension and release that structure the storyline. Lexical patterns reinforce this progression: character-centered words like Harry, Ron, and Hermione remain constant anchors, but new focal points such as Umbridge, Voldemort, and wand emerge as plot elements intensify. Vocabulary size also grows substantially over the series, reflecting both Rowling’s expanding world-building and the darker, more mature tone of the later books.
+##11. Conclusion Across all analyses, the Harry Potter series reveals a consistent emotional and linguistic trajectory that mirrors the narrative’s increasing thematic complexity. Sentiment patterns show that negative language becomes more dominant as the stakes rise, especially in the later books, while the normalized emotional arc highlights recurring waves of tension and release that structure the storyline. Lexical patterns reinforce this progression: character-centered words like Harry, Ron, and Hermione remain constant anchors, but new focal points such as Umbridge, Voldemort, and wand emerge as plot elements intensify. Vocabulary size also grows substantially over the series, reflecting both Rowling’s expanding world-building and the darker, more mature tone of the later books.
 
 Harry Potter readers are typically drawn to the series’ unique worldview, immersing themselves in a realm of magic, danger, and fantasy. Each book centers on the ongoing clash between protagonist and antagonist, and although Harry ultimately triumphs in nearly every encounter, the linguistic patterns show that the author relies far more on negative vocabulary than positive. This was a counterintuitive finding: before conducting this research, I assumed the narrative would contain more positive sentiment, particularly given Rowling’s explicit thematic emphasis on love.
