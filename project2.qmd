@@ -4,9 +4,11 @@ author: "Huarong Jin"
 format: html
 editor: visual
 ---
+
 GitHub link:https://github.com/jhuarong-lang/project2
 
 ## 1.codebook
+
 This project uses several derived datasets created from the original Harry Potter text corpus (from the harrypotter R package). The following tables describe each dataset and variable used in the analysis.
 
 1.Raw Token Dataset: `hp_words`
@@ -75,6 +77,7 @@ Research Question: 1. How does sentiment (positive vs. negative vocabulary) vary
 To answer these, I apply lexicon-based sentiment analysis using tidytext and visualize emotional trends at chapter and book scales, along with lexical frequency trends.
 
 ## 2.1 Setup Before loading the data
+
 I install the harrypotter package (which contains the book texts) and load the libraries used throughout the analysis. This project relies heavily on the tidyverse for data wrangling, tidytext for sentiment analysis, and ggplot2 for visualization.
 
 ```{r}
@@ -95,7 +98,8 @@ library(here)
 ```
 
 ##3.Data & Preprocessing 
-The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing. 
+
+The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing.
 
 ##3.1 Combine Books into a Single Dataset
 
@@ -132,6 +136,7 @@ ungroup()
 ```
 
 ##3.3 Tokenize Text and Join Sentiment Lexicon 
+
 I convert the text into one-word-per-row format and join the bing sentiment labels.
 
 ```{r}
@@ -147,7 +152,8 @@ left_join(bing, by = "word")
 
 ```
 
-##4. Lexical Patterns Before analyzing sentiment
+##4. Lexical Patterns Before analyzing sentiment 
+
 It is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time.
 
 ##4.1 Top Words in Each Book
@@ -186,6 +192,7 @@ ggplot(top_words, aes(x = n, y = reorder_within(word, n, book),
 Unsurprisingly, Harry is the most frequent word in every book, with Ron and Hermione consistently close behind. Each panel also highlights book-specific focal characters—Lockhart in Book 2, Lupin in Book 3, Moody and Crouch in Book 4, Umbridge in Book 5, Slughorn in Book 6, and Voldemort in Book 7—mirroring the shifting narrative focus across the series.
 
 ##5. Sentiment Across Books 
+
 I first examine sentiment proportions (positive vs. negative) aggregated by book.
 
 ##5.1 Count Sentiment Labels by Book
@@ -213,6 +220,7 @@ scale_fill_manual(values = c("positive" = "steelblue",
 Negative words consistently outnumber positive ones across all seven books, and the spike in Books 4–7 aligns with the series’ shift toward darker themes and rising danger. Positive sentiment increases as well, but at a much slower rate, suggesting that optimism never grows at the same pace as conflict.
 
 ##6. Chapter-Level Emotional Arc 
+
 To see local emotional fluctuations, I compute per-chapter sentiment and then smooth the trend.
 
 ##6.1 Recreate Token + Sentiment Structure (Book-Chapter-Word)
@@ -265,8 +273,9 @@ ggplot(chapter_sentiment, aes(x = chapter, y = net, color = factor(book))) +
 
 The chapter-level emotional arcs show that all seven books maintain a generally negative tone, with sharp drops aligning with major moments of conflict in the story. The later novels—especially Books 4, 5, and 7—show the most dramatic fluctuations, reflecting pivotal plot events such as Voldemort’s return, the rise of the Ministry’s oppression, and the final battle against the Death Eaters. These increasingly volatile emotional swings mirror the darker, higher-stakes trajectory of the Harry Potter narrative as the series progresses.
 
-##7. Positive vs. Negative Words 
-Over Time This plot separates positive and negative word counts.
+##7. Positive vs. Negative Words Over Time 
+
+This plot separates positive and negative word counts.
 
 ```{r}
 posneg <- hp_sentiment |>
@@ -305,7 +314,8 @@ ggplot(chapter_sentiment,
 Book 1 rises steadily as Harry enters the magical world, while Book 2 dips early during the attacks at Hogwarts. Book 3 stays comparatively stable until the sharp swing at the Sirius/Scabbers reveal, whereas Book 4 fluctuates heavily throughout the Triwizard Tournament(Harry faced the death of a companion for the first time, and Cedric's death marked a turning point in the Harry Potter series.). Book 5 shows the most chaotic pattern, matching the constant conflict with Umbridge, while Book 6 peaks mid-story before dropping sharply after Dumbledore’s death. Book 7 oscillates throughout the Horcrux hunt and reaches some of the lowest points in the entire series, reflecting the sustained tension leading into the final battle.
 
 ##8. Wordclouds 
-Wordclouds give a high-level sense of vocabulary prominence. 
+
+Wordclouds give a high-level sense of vocabulary prominence.
 
 ##8.1 Overall Word Frequencies
 
@@ -326,7 +336,7 @@ colors = brewer.pal(8, "Dark2")
 
 ```
 
-The word cloud highlights how central the trio—Harry, Ron, and Hermione—is to the narrative, with other major figures like Dumbledore, Hagrid, Voldemort, and Snape also standing out. Frequent appearance of words such as looked, eyes, hand, and voice suggests Rowling’s reliance on sensory and bodily descriptions to move scenes forward. 
+The word cloud highlights how central the trio—Harry, Ron, and Hermione—is to the narrative, with other major figures like Dumbledore, Hagrid, Voldemort, and Snape also standing out. Frequent appearance of words such as looked, eyes, hand, and voice suggests Rowling’s reliance on sensory and bodily descriptions to move scenes forward.
 
 ##8.2 Positive vs Negative Wordclouds
 
@@ -352,7 +362,9 @@ title("Negative Words")
 
 Positive words center around magic, happiness, and protection—echoing the series’ recurring moments of wonder, camaraderie, and triumph. Negative words, however, cluster around fear, injury, and death, mirroring the threats, battles, and emotional strain that define Harry’s encounters with dark forces.
 
-##9. Vocabulary Growth This analysis looks at how many unique words appear in each book.
+##9. Vocabulary Growth 
+
+This analysis looks at how many unique words appear in each book.
 
 ```{r}
 vocab_growth <- hp_words |>
@@ -376,6 +388,7 @@ ggplot(vocab_growth, aes(x = book, y = vocab_size)) +
 The vocabulary grows steadily across the series, with the biggest jump occurring from Book 3 to Book 4, reflecting the shift from children’s adventure to a darker, more complex narrative world. Books 5–7 maintain this richer linguistic density as the plot expands, conflicts intensify, and the storytelling becomes more mature.
 
 ##10. Normalized Emotional Arc Across the Full Series 
+
 Because each book contains a different number of chapters, I normalize sentiment by mapping chapter indices to a 0–1 scale. This allows comparison across the entire series as a single emotional trajectory.
 
 ##10.1 Normalize Time Axis
@@ -428,6 +441,11 @@ ggplot(chapter_mean, aes(x = time, y = mean_sent)) +
 The normalized emotional arc shows that the series maintains a generally negative emotional tone overall, but with noticeable mid-story rises corresponding to moments of hope, discovery, and bonding that occur across multiple books. As the narrative progresses toward the ending, the curve dips again, reflecting the darker, high-stakes conflicts of the final volumes before slightly recovering at the conclusion.
 
 ##11. Conclusion 
+
 Across all analyses, the Harry Potter series reveals a consistent emotional and linguistic trajectory that mirrors the narrative’s increasing thematic complexity. Sentiment patterns show that negative language becomes more dominant as the stakes rise, especially in the later books, while the normalized emotional arc highlights recurring waves of tension and release that structure the storyline. Lexical patterns reinforce this progression: character-centered words like Harry, Ron, and Hermione remain constant anchors, but new focal points such as Umbridge, Voldemort, and wand emerge as plot elements intensify. Vocabulary size also grows substantially over the series, reflecting both Rowling’s expanding world-building and the darker, more mature tone of the later books.
 
 Harry Potter readers are typically drawn to the series’ unique worldview, immersing themselves in a realm of magic, danger, and fantasy. Each book centers on the ongoing clash between protagonist and antagonist, and although Harry ultimately triumphs in nearly every encounter, the linguistic patterns show that the author relies far more on negative vocabulary than positive. This was a counterintuitive finding: before conducting this research, I assumed the narrative would contain more positive sentiment, particularly given Rowling’s explicit thematic emphasis on love.
+
+##Reference
+
+https://github.com/bradleyboehmke/harrypotter
