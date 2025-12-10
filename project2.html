@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <section id="codebook" class="level2">
-<h2 class="anchored" data-anchor-id="codebook">codebook</h2>
+<h2 class="anchored" data-anchor-id="codebook">1.codebook</h2>
 <p>This project uses several derived datasets created from the original Harry Potter text corpus (from the harrypotter R package). The following tables describe each dataset and variable used in the analysis.</p>
 <p>1.Raw Token Dataset: <code>hp_words</code></p>
 <p>This dataset contains one token (word) per row after tidying the book texts.</p>
@@ -294,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </section>
 <section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
+<h2 class="anchored" data-anchor-id="introduction">2.Introduction</h2>
 <p>Emotion plays a central role in narrative structure, pacing, and reader interpretation. The Harry Potter series provides a rich longitudinal text corpus spanning seven books. This project investigates:</p>
 <p>Research Question: How does emotional tone shift across the seven books of the Harry Potter series, based on positive and negative lexical items?</p>
 <p>To answer this, I apply lexicon-based sentiment analysis using tidytext and visualize emotional trends at chapter and book scales, along with lexical frequency trends. ## 2.Setup Before loading the data, I install the harrypotter package (which contains the book texts) and load the libraries used throughout the analysis. This project relies heavily on the tidyverse for data wrangling, tidytext for sentiment analysis, and ggplot2 for visualization.</p>
@@ -354,7 +354,7 @@ The following objects are masked from 'package:base':
     as.Date, as.Date.numeric</code></pre>
 </div>
 </div>
-<p>##3. Data &amp; Preprocessing The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing. ##3.1 Combine Books into a Single Dataset</p>
+<p>##3.Data &amp; Preprocessing The harrypotter package stores each book as a character vector, with one element per chapter. Here, I assemble all books into a single tibble for easier processing. ##3.1 Combine Books into a Single Dataset</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>books <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="at">book =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,</span>
@@ -400,7 +400,8 @@ The following objects are masked from 'package:base':
   "many-to-many"` to silence this warning.</code></pre>
 </div>
 </div>
-<p>##4. Lexical Patterns Before analyzing sentiment, it is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time. ##4.1 Top Words in Each Book</p>
+<p>##4. Lexical Patterns Before analyzing sentiment, it is useful to look at frequent lexical items across books. This can help me identify character prominence, recurring themes, and vocabulary shifts over time.</p>
+<p>##4.1 Top Words in Each Book</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>top_words <span class="ot">&lt;-</span> hp_words <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">|&gt;</span>    <span class="co"># remove stopwords</span></span>
